@@ -1,0 +1,38 @@
+!
+hostname EIGRP
+!
+!
+interface GigabitEthernet0/1
+ ip address 10.10.11.11 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2.10
+ encapsulation dot1Q 10
+ ip address 80.0.10.11 255.255.255.0
+!
+interface GigabitEthernet0/2.20
+ encapsulation dot1Q 20
+ ip address 80.0.20.11 255.255.255.0
+!
+interface GigabitEthernet0/2.40
+ encapsulation dot1Q 40
+ ip address 80.0.40.11 255.255.255.0
+!
+!
+router eigrp 1
+ network 10.10.11.0 0.0.0.255
+ network 80.0.10.0 0.0.0.255
+ network 80.0.20.0 0.0.0.255
+ network 80.0.40.0 0.0.0.255
+!
+!
+ip route 0.0.0.0 0.0.0.0 10.10.11.10
+!

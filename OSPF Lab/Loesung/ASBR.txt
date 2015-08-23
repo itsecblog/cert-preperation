@@ -1,0 +1,80 @@
+!
+hostname ASBR
+!
+!
+interface GigabitEthernet0/1
+ ip address 10.8.10.10 255.255.255.0
+ ip ospf 1 area 30
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.9.10.10 255.255.255.0
+ ip ospf 1 area 30
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3.10
+ encapsulation dot1Q 10
+ ip address 172.30.10.10 255.255.255.0
+ ip policy route-map RMAP
+ ip ospf 1 area 30
+!
+interface GigabitEthernet0/3.20
+ encapsulation dot1Q 20
+ ip address 172.30.20.10 255.255.255.128
+ ip policy route-map RMAP
+ ip ospf 1 area 30
+!
+interface GigabitEthernet0/4
+ ip address 10.10.11.10 255.255.255.0
+ ip policy route-map RMAP
+ duplex auto
+ speed auto
+ media-type rj45
+!
+!
+router eigrp 1
+ network 10.10.11.0 0.0.0.255
+!
+router ospf 1
+ router-id 10.10.10.10
+ priority 0
+ auto-cost reference-bandwidth 10000
+ area 30 nssa
+ summary-address 80.0.0.0 255.255.224.0
+ redistribute eigrp 1 subnets
+ passive-interface GigabitEthernet0/3.10
+ passive-interface GigabitEthernet0/3.20
+ default-information originate
+ distribute-list prefix Filter-30 out eigrp 1
+!
+ip local policy route-map RMAP
+!
+!
+!
+ip prefix-list Filter-30 seq 5 deny 80.0.40.0/24
+ip prefix-list Filter-30 seq 10 permit 0.0.0.0/0 le 32
+!
+route-map RMAP permit 10
+ match ip address 100
+ set ip next-hop 10.9.10.9
+!
+route-map RMAP permit 20
+ match ip address 101
+ set ip next-hop 10.8.10.8
+!
+!
+access-list 100 permit ip 172.30.0.0 0.0.31.255 any
+access-list 100 permit icmp 172.30.0.0 0.0.31.255 any
+access-list 101 permit ip 80.0.0.0 0.0.31.255 any
+access-list 101 permit icmp 80.0.0.0 0.0.31.255 any
+!

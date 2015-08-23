@@ -1,0 +1,30 @@
+!
+hostname R2
+!
+!
+interface GigabitEthernet0/1
+ ip address 10.1.2.2 255.255.255.0
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.2.5.2 255.255.255.0
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 10.2.8.2 255.255.255.0
+ ip ospf 1 area 40
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 2.2.2.2
+ auto-cost reference-bandwidth 10000
+ area 40 virtual-link 8.8.8.8
+!
