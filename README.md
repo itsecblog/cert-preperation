@@ -1,4 +1,4 @@
 # cert-preperation
 IT Security Blog - Certification Preperation
 
-Siehe: https://itsecblog.de/labs-uebungen/
+See: https://itsecblog.de/labs-uebungen/
