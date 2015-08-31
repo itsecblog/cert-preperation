@@ -1,7 +1,6 @@
 !
+!
 hostname R4
-!
-!
 !
 !
 !
@@ -30,5 +29,17 @@ interface GigabitEthernet0/3
 router ospf 1
  router-id 4.4.4.4
  auto-cost reference-bandwidth 10000
+ area 20 filter-list prefix PL-Filter-To-20 in
+ area 20 filter-list prefix PL-Filter-From-20 out
  distribute-list 10 in GigabitEthernet0/3
+!
+!
+!
+!
+ip prefix-list PL-Filter-From-20 seq 5 deny 172.20.50.0/24
+ip prefix-list PL-Filter-From-20 seq 10 permit 0.0.0.0/0 le 32
+!
+ip prefix-list PL-Filter-To-20 seq 5 deny 10.1.5.0/24
+ip prefix-list PL-Filter-To-20 seq 10 permit 0.0.0.0/0 le 32
+!
 !
