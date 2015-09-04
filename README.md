@@ -9,4 +9,4 @@ Cisco CCNP ROUTE (300-101) Preperation
 
 -> OSPF Lab
 
--> EIGRP Lab (Work in Progress)
+-> EIGRP Lab
