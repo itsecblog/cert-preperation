@@ -1,0 +1,61 @@
+!
+hostname R9
+!
+!
+!
+!
+interface GigabitEthernet0/1
+ ip address 10.9.11.9 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.8.9.9 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 10.6.9.9 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+!
+router eigrp 1
+ distribute-list route-map RM-Filter-Default out GigabitEthernet0/3
+ distribute-list route-map RM-Filter-Default out GigabitEthernet0/2
+ network 10.6.9.0 0.0.0.255
+ network 10.8.9.0 0.0.0.255
+ network 10.9.11.0 0.0.0.255
+ redistribute static metric 1000000 10 255 1 1500 route-map RM-Filter-Redist
+ offset-list 10 in 3 GigabitEthernet0/3 
+ eigrp router-id 9.9.9.9
+!
+!
+ip route 0.0.0.0 0.0.0.0 20.0.0.6
+ip route 20.0.0.0 255.255.255.0 10.6.9.6
+!
+!
+ip prefix-list PL-Default-Only seq 5 permit 0.0.0.0/0
+!
+route-map RM-Filter-Redist permit 10
+ match ip address prefix-list PL-Default-Only
+!
+route-map RM-Filter-Default deny 10
+ match ip address prefix-list PL-Default-Only
+!
+route-map RM-Filter-Default permit 20
+!
+!
+access-list 10 permit 10.6.8.0 0.0.0.255
+!
+!

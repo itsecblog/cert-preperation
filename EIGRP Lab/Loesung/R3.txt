@@ -1,0 +1,49 @@
+!
+hostname R3
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/1
+ ip address 10.3.4.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.3.6.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 10.2.3.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+!
+router eigrp 1
+ network 10.2.3.0 0.0.0.255
+ network 10.3.4.0 0.0.0.255
+ network 10.3.6.0 0.0.0.255
+ eigrp router-id 3.3.3.3
+!
+!

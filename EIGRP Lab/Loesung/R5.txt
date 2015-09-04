@@ -1,0 +1,29 @@
+!
+hostname R5
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/1
+ ip address 10.1.6.5 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+!
+router eigrp 1
+ network 10.1.6.0 0.0.0.255
+ eigrp router-id 5.5.5.5
+!
+!

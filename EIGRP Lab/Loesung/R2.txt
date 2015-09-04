@@ -1,0 +1,44 @@
+!
+hostname R2
+!
+!
+!
+interface GigabitEthernet0/1
+ ip address 10.1.6.2 255.255.255.0
+ ip summary-address eigrp 1 172.10.0.0 255.255.192.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ bandwidth 900000
+ ip address 10.2.7.2 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 10.2.3.2 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+!
+router eigrp 1
+ distribute-list route-map RM-CHANGE-RD out GigabitEthernet0/1
+ variance 2
+ network 10.1.6.0 0.0.0.255
+ network 10.2.3.0 0.0.0.255
+ network 10.2.7.0 0.0.0.255
+ eigrp router-id 2.2.2.2
+!
+!
+!
+!
+ip prefix-list PL-172 seq 5 permit 172.20.30.0/24
+!
+route-map RM-CHANGE-RD permit 10
+ match ip address prefix-list PL-172
+ set metric 500000 3 255 1 1500
+!
+!

@@ -1,0 +1,49 @@
+!
+hostname R4
+!
+!
+!
+interface GigabitEthernet0/1
+ ip address 10.3.4.4 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.4.7.4 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3.10
+ encapsulation dot1Q 10
+ ip address 172.20.10.4 255.255.255.0
+!
+interface GigabitEthernet0/3.20
+ encapsulation dot1Q 20
+ ip address 172.20.20.4 255.255.255.0
+!
+interface GigabitEthernet0/3.30
+ encapsulation dot1Q 30
+ ip address 172.20.30.4 255.255.255.0
+!
+!
+router eigrp 1
+ network 10.3.4.0 0.0.0.255
+ network 10.4.7.0 0.0.0.255
+ network 172.20.10.0 0.0.0.255
+ network 172.20.20.0 0.0.0.255
+ network 172.20.30.0 0.0.0.255
+ passive-interface GigabitEthernet0/3.20
+ passive-interface GigabitEthernet0/3.30
+ passive-interface GigabitEthernet0/3.10
+ eigrp router-id 4.4.4.4
+ eigrp stub connected summary
+!
+!
